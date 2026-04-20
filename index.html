@@ -449,6 +449,24 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js"></script><script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc } 
+from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+// ✅ YOUR CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyCdmk_aELyYMjVAwtjw-YJCbW7Cjjkcrj4",
+  authDomain: "alpha-pharmacy-7398a.firebaseapp.com",
+  projectId: "alpha-pharmacy-7398a",
+  storageBucket: "alpha-pharmacy-7398a.firebasestorage.app",
+  messagingSenderId: "172892212499",
+  appId: "1:172892212499:web:244f521e16ccd07f135ee6",
+  measurementId: "G-G04SGRL56Z"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+</script>
 </body>
 </html>
