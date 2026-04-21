@@ -1,4 +1,26 @@
-// ===== State & Data =====
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCi4AJtoXpWe5t30HCOduhGJWJ_pRQgKrA",
+    authDomain: "alphaweb-900b8.firebaseapp.com",
+    projectId: "alphaweb-900b8",
+    storageBucket: "alphaweb-900b8.firebasestorage.app",
+    messagingSenderId: "1035853039956",
+    appId: "1:1035853039956:web:c32690e7b4f6f3fc0720c1",
+    measurementId: "G-CKLMSR1FEF"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>// ===== State & Data =====
 let allDrugs = [];
 let allSales = [];
 const MIN_STOCK = 5;
