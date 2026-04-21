@@ -449,28 +449,28 @@
     </div>
   </div>
 
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdmk_aELyYMjVAwtjw-YJCbW7Cjjkcrj4",
+      authDomain: "alpha-pharmacy-7398a.firebaseapp.com",
+      projectId: "alpha-pharmacy-7398a",
+      storageBucket: "alpha-pharmacy-7398a.firebasestorage.app",
+      messagingSenderId: "172892212499",
+      appId: "1:172892212499:web:244f521e16ccd07f135ee6",
+      measurementId: "G-G04SGRL56Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.db = db;
+    window.firebaseMethods = { collection, getDocs, addDoc, updateDoc, doc, deleteDoc };
+  </script>
+
   <script src="app.js"></script>
-
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCdmk_aELyYMjVAwtjw-YJCbW7Cjjkcrj4",
-    authDomain: "alpha-pharmacy-7398a.firebaseapp.com",
-    projectId: "alpha-pharmacy-7398a",
-    storageBucket: "alpha-pharmacy-7398a.firebasestorage.app",
-    messagingSenderId: "172892212499",
-    appId: "1:172892212499:web:244f521e16ccd07f135ee6",
-    measurementId: "G-G04SGRL56Z"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  window.db = db;
-  window.firebaseMethods = { collection, getDocs, addDoc, updateDoc, doc, deleteDoc };
-</script>
 </body>
 </html>
