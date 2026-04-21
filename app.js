@@ -125,21 +125,25 @@ async function deleteSaleFromFirebase(id) {
 
 // ===== Init =====
 document.addEventListener("DOMContentLoaded", async () => {
-    checkLoginStatus();
+    if (!checkLoginStatus()) return;
+    
+    showMainApp();
+    
     if (window.db) {
         await loadDrugsFromFirebase();
         await loadSalesFromFirebase();
-        setupLogin();
     }
 });
 
 function checkLoginStatus() {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    if (isLoggedIn) {
-        showMainApp();
-    } else {
+    const role = localStorage.getItem("role");
+    
+    if (!isLoggedIn || !role) {
         window.location.href = "login.html";
+        return false;
     }
+    return true;
 }
 
 function showLoginPage() {
@@ -150,12 +154,31 @@ function showMainApp() {
     loginPage.style.display = "none";
     mainApp.style.display = "flex";
     mainApp.style.width = "100%";
+    setupRoleBasedUI();
     initData();
     setupNavigation();
     setCurrentDate();
     loadAll();
     loadAdminPages();
-    setupRoleBasedUI();
+}
+
+function setupRoleBasedUI() {
+    const role = localStorage.getItem('role') || 'user';
+    const adminNav = document.getElementById('adminNavItems');
+    const userNav = document.getElementById('userNavItems');
+    const addDrugNavBtn = document.getElementById('addDrugNavBtn');
+    
+    if (role === 'admin') {
+        if (adminNav) adminNav.style.display = 'block';
+        if (userNav) userNav.style.display = 'none';
+        if (addDrugNavBtn) addDrugNavBtn.style.display = 'flex';
+    } else {
+        if (adminNav) adminNav.style.display = 'none';
+        if (userNav) userNav.style.display = 'block';
+        if (addDrugNavBtn) addDrugNavBtn.style.display = 'none';
+    }
+    
+    currentRole = role;
 }
 
 function setupLogin() {
@@ -839,6 +862,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Render admin pages when navigating
 function loadAdminPages() {
+    if (localStorage.getItem('role') !== 'admin') return;
     renderStock();
     renderRestockPage();
     renderExpiryPage();
