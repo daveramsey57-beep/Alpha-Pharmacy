@@ -3,20 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ALPHA PHARMACY - Dashboard</title>
+  <title>Medicine App - User Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="stylesheet" href="style.css" />
-  
-  <script>
-    if (localStorage.getItem("isLoggedIn") !== "true") {
-      window.location.replace("login.html");
-    }
-  </script>
 </head>
 <body>
-  
-  <!-- Login Page placeholder (hidden) -->
-  <div id="loginPage" style="display: none;"></div>
+  <!-- Login Page -->
+  <div id="loginPage" class="login-page">
+    <div class="login-container">
+      <div class="login-header">
+        <i class="fa-solid fa-pills"></i>
+        <h1>MediCare</h1>
+        <p>Medicine Management System</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label>Username</label>
+          <div class="input-group">
+            <i class="fa-solid fa-at"></i>
+            <input type="text" id="username" placeholder="@user001" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-group">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="Enter password" required />
+          </div>
+        </div>
+        <button type="submit" class="btn-login">
+          <i class="fa-solid fa-sign-in-alt"></i> Login
+        </button>
+        <p id="loginError" class="error-message"></p>
+      </form>
+    </div>
+  </div>
 
   <!-- Main App (hidden until login) -->
   <div id="mainApp" class="app-container" style="display: none;">
@@ -24,11 +45,9 @@
     <aside class="sidebar">
       <div class="logo">
         <i class="fa-solid fa-pills"></i>
-        <span>ALPHA PHARMACY</span>
+        <span>MediCare</span>
       </div>
-      
-      <!-- Admin Navigation -->
-      <nav class="nav-menu" id="adminNavItems" style="display: none;">
+      <nav class="nav-menu">
         <a href="#" class="nav-item active" data-page="dashboard">
           <i class="fa-solid fa-chart-line"></i>
           <span>Dashboard</span>
@@ -45,48 +64,15 @@
           <i class="fa-solid fa-boxes-stacked"></i>
           <span>Inventory</span>
         </a>
-        <a href="#" class="nav-item" data-page="stock">
-          <i class="fa-solid fa-warehouse"></i>
-          <span>Stock Available</span>
-        </a>
-        <a href="#" class="nav-item" data-page="restock">
-          <i class="fa-solid fa-boxes-packing"></i>
-          <span>Restock</span>
-        </a>
-        <a href="#" class="nav-item" data-page="expiry">
-          <i class="fa-solid fa-calendar-xmark"></i>
-          <span>Expiry Dates</span>
-        </a>
-        <a href="#" class="nav-item" data-page="add-drug" id="addDrugNavBtn">
-          <i class="fa-solid fa-plus-circle"></i>
-          <span>Add Drugs</span>
-        </a>
       </nav>
-      
-      <!-- User Navigation (limited access) -->
-      <nav class="nav-menu" id="userNavItems" style="display: none;">
-        <a href="#" class="nav-item active" data-page="dashboard">
-          <i class="fa-solid fa-chart-line"></i>
-          <span>Dashboard</span>
-        </a>
-        <a href="#" class="nav-item" data-page="sell">
-          <i class="fa-solid fa-cash-register"></i>
-          <span>Sell Drugs</span>
-        </a>
-        <a href="#" class="nav-item" data-page="sales">
-          <i class="fa-solid fa-receipt"></i>
-          <span>Sales History</span>
-        </a>
-      </nav>
-      
       <div class="sidebar-footer">
         <div class="user-info">
           <i class="fa-solid fa-user-circle"></i>
-          <span id="userInfoName">User</span>
+          <span>Admin User</span>
         </div>
-        <a href="login.html" class="logout-btn" onclick="logout(); return false;">
+        <button class="logout-btn" onclick="logout()">
           <i class="fa-solid fa-sign-out-alt"></i> Logout
-        </a>
+        </button>
       </div>
     </aside>
 
@@ -231,7 +217,7 @@
       <section id="inventory-page" class="page">
         <header class="page-header">
           <h1><i class="fa-solid fa-boxes-stacked"></i> Inventory</h1>
-          <button class="btn-primary" onclick="showAddDrugModal()" id="inventoryAddBtn" style="display: none;">
+          <button class="btn-primary" onclick="showAddDrugModal()">
             <i class="fa-solid fa-plus"></i> Add Drug
           </button>
         </header>
@@ -266,140 +252,6 @@
             <tbody id="inventoryBody"></tbody>
           </table>
         </div>
-      </section>
-
-      <!-- Stock Available Page (Admin Only) -->
-      <section id="stock-page" class="page">
-        <header class="page-header">
-          <h1><i class="fa-solid fa-warehouse"></i> Stock Available</h1>
-        </header>
-        
-        <div class="form-group search-group">
-          <input type="text" id="stockSearch" placeholder="Search drugs..." class="search-input" />
-        </div>
-
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Drug Name</th>
-                <th>Category</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="stockBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Restock Page (Admin Only) -->
-      <section id="restock-page" class="page">
-        <header class="page-header">
-          <h1><i class="fa-solid fa-boxes-packing"></i> Restock Drugs</h1>
-        </header>
-
-        <div class="form-card" style="max-width: 600px;">
-          <div class="low-stock-notice" id="lowStockNotice" style="display: none;">
-            <h3><i class="fa-solid fa-triangle-exclamation"></i> Low Stock Items</h3>
-            <ul id="lowStockList"></ul>
-          </div>
-
-          <form id="restockForm">
-            <div class="form-group">
-              <label>Select Drug</label>
-              <select id="restockDrugSelect" class="form-select">
-                <option value="">Select a drug to restock</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Current Stock</label>
-              <input type="number" id="restockCurrentStock" class="form-input" readonly />
-            </div>
-            <div class="form-group">
-              <label>Quantity to Add</label>
-              <input type="number" id="restockQuantity" class="form-input" min="1" placeholder="Enter quantity to add" />
-            </div>
-            <div class="form-group">
-              <label>Supplier</label>
-              <input type="text" id="restockSupplier" class="form-input" placeholder="Enter supplier name" />
-            </div>
-            <button type="submit" class="btn-primary">
-              <i class="fa-solid fa-plus"></i> Update Stock
-            </button>
-          </form>
-        </div>
-      </section>
-
-      <!-- Expiry Dates Page (Admin Only) -->
-      <section id="expiry-page" class="page">
-        <header class="page-header">
-          <h1><i class="fa-solid fa-calendar-xmark"></i> Expiry Dates</h1>
-        </header>
-
-        <div class="filter-buttons">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="expired">Expired</button>
-          <button class="filter-btn" data-filter="soon">Expiring Soon (30 days)</button>
-          <button class="filter-btn" data-filter="ok">OK</button>
-        </div>
-
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Drug Name</th>
-                <th>Quantity</th>
-                <th>Expiry Date</th>
-                <th>Days Left</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="expiryBody"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Add Drug Page (Admin Only) -->
-      <section id="add-drug-page" class="page">
-        <header class="page-header">
-          <h1><i class="fa-solid fa-plus-circle"></i> Add New Drug</h1>
-        </header>
-
-        <form id="addDrugPageForm" class="form-card" style="max-width: 600px;">
-          <div class="form-group">
-            <label>Drug Name</label>
-            <input type="text" id="addDrugName" class="form-input" placeholder="Enter drug name" required />
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="addDrugCategory" class="form-select">
-              <option value="Pain Relief">Pain Relief</option>
-              <option value="Antibiotic">Antibiotic</option>
-              <option value="Allergy">Allergy</option>
-              <option value="Vitamins">Vitamins</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Price (KSh)</label>
-              <input type="number" id="addDrugPrice" class="form-input" min="0" placeholder="Enter price" required />
-            </div>
-            <div class="form-group">
-              <label>Quantity</label>
-              <input type="number" id="addDrugQuantity" class="form-input" min="0" placeholder="Enter quantity" required />
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Expiry Date</label>
-            <input type="date" id="addDrugExpiry" class="form-input" />
-          </div>
-          <button type="submit" class="btn-primary">
-            <i class="fa-solid fa-save"></i> Save Drug
-          </button>
-        </form>
       </section>
     </main>
   </div>
@@ -448,6 +300,7 @@
       </form>
     </div>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
