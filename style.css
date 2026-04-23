@@ -778,7 +778,14 @@ body::before {
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .sidebar {
+    position: fixed;
+    left: -80px;
     width: 80px;
+    z-index: 1000;
+  }
+  
+  .show-sidebar {
+    left: 0;
   }
   
   .logo span, .nav-item span, .user-info span, .logout-btn span {
@@ -810,10 +817,10 @@ body::before {
   }
   
   .main-content {
-    margin-left: 80px;
+    margin-left: 0;
   }
   
-.page-header h1 {
+  .page-header h1 {
     font-size: 1.25rem;
   }
   
