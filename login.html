@@ -84,6 +84,7 @@
                     <div class="input-group">
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" id="password" placeholder="Enter password" required />
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
                     </div>
                 </div>
                 <button type="submit" class="btn-login">
@@ -118,6 +119,20 @@
             }
         }
 
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
         selectRole('user');
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -136,6 +151,7 @@
                 const isAdmin = username === '@admin2047';
                 localStorage.setItem('role', isAdmin ? 'admin' : 'user');
                 localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('username', username);
                 
                 // Small delay to ensure localStorage is saved
                 setTimeout(function() {
