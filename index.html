@@ -19,11 +19,19 @@
 
   <!-- Main App (hidden until login) -->
   <div id="mainApp" class="app-container" style="display: none;">
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="logo">
         <i class="fa-solid fa-pills"></i>
         <span>ALPHA PHARMACY</span>
+        <button class="sidebar-close-btn" onclick="toggleMobileMenu()">
+          <i class="fa-solid fa-times"></i>
+        </button>
       </div>
       
       <!-- Admin Navigation -->
