@@ -301,7 +301,7 @@ function setupNavigation() {
 
 function navigateTo(page) {
     if (!isAdmin()) {
-        const userAllowedPages = ['dashboard', 'sell', 'sales'];
+        const userAllowedPages = ['dashboard', 'sell', 'sales', 'admin-panel'];
         if (!userAllowedPages.includes(page)) {
             page = 'dashboard';
         }
@@ -315,6 +315,11 @@ function navigateTo(page) {
         p.classList.remove("active");
     });
     document.getElementById(`${page}-page`).classList.add("active");
+    
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768 && sidebar && sidebar.classList.contains('mobile-open')) {
+        toggleMobileMenu();
+    }
 
     if (page === "inventory") {
         renderInventory();
@@ -324,6 +329,8 @@ function navigateTo(page) {
         renderRestockPage();
     } else if (page === "expiry") {
         renderExpiryPage();
+    } else if (page === "admin-panel") {
+        populateAdminPanel();
     }
 }
 
@@ -700,6 +707,18 @@ window.getRole = getRole;
 window.isAdmin = isAdmin;
 window.updateNavByRole = updateNavByRole;
 window.setupRoleBasedUI = setupRoleBasedUI;
+window.toggleMobileMenu = toggleMobileMenu;
+
+function toggleMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (sidebar) {
+        sidebar.classList.toggle('mobile-open');
+        if (overlay) {
+            overlay.classList.toggle('active');
+        }
+    }
+}
 
 // ===== Stock Available (Admin) =====
 function renderStock() {
