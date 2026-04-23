@@ -231,10 +231,22 @@ setInterval(() => {
 }, 60000);
 
 window.addEventListener("beforeunload", function() {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("role");
-    localStorage.removeItem("lastActivity");
-    localStorage.removeItem("username");
+    sessionStorage.removeItem("isLoggedIn");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("lastActivity");
+    sessionStorage.removeItem("username");
+});
+
+window.addEventListener("pagehide", function(e) {
+    if (e.persisted) {
+        // Page is being cached (back/forward cache)
+    } else {
+        // Page is truly being discarded (tab close)
+        sessionStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("role");
+        sessionStorage.removeItem("lastActivity");
+        sessionStorage.removeItem("username");
+    }
 });
 
 async function initData() {
