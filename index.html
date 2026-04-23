@@ -25,13 +25,9 @@
 
   <!-- Main App (hidden until login) -->
   <div id="mainApp" class="app-container" style="display: none;">
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
-    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-    
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
+      <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileMenu()"></div>
       <div class="logo">
         <i class="fa-solid fa-pills"></i>
         <span>ALPHA PHARMACY</span>
@@ -106,6 +102,11 @@
         </a>
       </div>
     </aside>
+
+    <!-- Mobile Menu Button (Outside sidebar) -->
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+      <i class="fa-solid fa-bars"></i>
+    </button>
 
     <!-- Main Content -->
     <main class="main-content">
