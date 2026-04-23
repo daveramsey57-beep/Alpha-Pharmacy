@@ -711,14 +711,26 @@ window.toggleMobileMenu = toggleMobileMenu;
 
 function toggleMobileMenu() {
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
     if (sidebar) {
         sidebar.classList.toggle('mobile-open');
+        const overlay = sidebar.querySelector('.sidebar-overlay');
         if (overlay) {
             overlay.classList.toggle('active');
         }
     }
 }
+
+document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    if (window.innerWidth <= 768 && sidebar && sidebar.classList.contains('mobile-open')) {
+        if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+            sidebar.classList.remove('mobile-open');
+            const overlay = sidebar.querySelector('.sidebar-overlay');
+            if (overlay) overlay.classList.remove('active');
+        }
+    }
+});
 
 // ===== Stock Available (Admin) =====
 function renderStock() {
