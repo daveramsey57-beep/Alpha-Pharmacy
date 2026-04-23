@@ -4,6 +4,8 @@ let allSales = [];
 const MIN_STOCK = 5;
 let currentRole = 'user';
 let dbReady = false;
+const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+let lastActivity = Date.now();
 
 // Role check
 function getRole() {
@@ -148,11 +150,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 function checkLoginStatus() {
     const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     const role = localStorage.getItem("role");
+    const lastActive = localStorage.getItem("lastActivity");
+    
+    if (lastActive && Date.now() - parseInt(lastActive) > SESSION_TIMEOUT) {
+        logout();
+        return false;
+    }
     
     if (!isLoggedIn || !role) {
         window.location.href = "login.html";
         return false;
     }
+    
+    localStorage.setItem("lastActivity", Date.now());
     return true;
 }
 
@@ -198,8 +208,34 @@ function setupLogin() {
 function logout() {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("role");
+    localStorage.removeItem("lastActivity");
+    localStorage.removeItem("username");
     window.location.href = "login.html?t=" + new Date().getTime();
 }
+
+function updateActivity() {
+    localStorage.setItem("lastActivity", Date.now());
+    lastActivity = Date.now();
+}
+
+document.addEventListener("click", updateActivity);
+document.addEventListener("keypress", updateActivity);
+document.addEventListener("scroll", updateActivity);
+document.addEventListener("mousemove", updateActivity);
+
+setInterval(() => {
+    const lastActive = localStorage.getItem("lastActivity");
+    if (lastActive && Date.now() - parseInt(lastActive) > SESSION_TIMEOUT) {
+        logout();
+    }
+}, 60000);
+
+window.addEventListener("beforeunload", function() {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
+    localStorage.removeItem("lastActivity");
+    localStorage.removeItem("username");
+});
 
 async function initData() {
     await loadDrugsFromFirebase();
@@ -876,6 +912,20 @@ function loadAdminPages() {
     renderStock();
     renderRestockPage();
     renderExpiryPage();
+    populateAdminPanel();
+}
+
+function populateAdminPanel() {
+    const usernameEl = document.getElementById('adminUsername');
+    const roleEl = document.getElementById('adminRole');
+    
+    if (usernameEl) {
+        usernameEl.value = localStorage.getItem('username') || 'admin';
+    }
+    if (roleEl) {
+        const role = localStorage.getItem('role');
+        roleEl.value = role === 'admin' ? 'Administrator' : 'User';
+    }
 }
 
 // Close modal on outside click
