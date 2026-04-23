@@ -827,10 +827,12 @@ body::before {
     z-index: 1001;
     transition: left 0.3s ease;
     overflow-y: auto;
+    display: none;
   }
   
   .sidebar.mobile-open {
     left: 0;
+    display: flex;
   }
   
   .sidebar-overlay {
@@ -1015,11 +1017,11 @@ body::before {
   }
   
   .mobile-menu-btn {
-    display: block !important;
+    display: flex !important;
     position: fixed;
     top: 16px;
     left: 16px;
-    z-index: 999;
+    z-index: 1002;
     background: var(--primary);
     color: white;
     border: none;
@@ -1028,6 +1030,11 @@ body::before {
     cursor: pointer;
     font-size: 1.25rem;
     touch-action: manipulation;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    text-decoration: none;
   }
   
   .sidebar-close-btn {
