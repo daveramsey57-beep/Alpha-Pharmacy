@@ -12,6 +12,12 @@
     if (localStorage.getItem("isLoggedIn") !== "true") {
       window.location.replace("login.html");
     }
+    
+    window.addEventListener('popstate', function() {
+      window.location.href = 'login.html';
+    });
+    
+    history.pushState(null, '', window.location.href);
   </script>
   
   <!-- Login Page placeholder (hidden) -->
