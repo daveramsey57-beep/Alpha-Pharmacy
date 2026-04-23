@@ -13,6 +13,14 @@
       window.location.replace("login.html");
     }
     
+    // Set background based on role
+    var role = localStorage.getItem('role');
+    if (role === 'admin') {
+      document.body.className = 'admin-page';
+    } else {
+      document.body.className = 'user-page';
+    }
+    
     window.addEventListener('popstate', function() {
       window.location.href = 'login.html';
     });
@@ -550,5 +558,4 @@
 
   <script src="app.js"></script>
 </body>
-</html>
 </html>
