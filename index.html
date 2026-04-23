@@ -25,17 +25,11 @@
 
   <!-- Main App (hidden until login) -->
   <div id="mainApp" class="app-container" style="display: none;">
-    <!-- Overlay -->
-    <div id="sidebarOverlay" onclick="document.getElementById('sidebar').classList.remove('mobile-open')" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;"></div>
-    
-    <!-- Sidebar -->
+    <!-- Sidebar always visible on PC -->
     <aside class="sidebar" id="sidebar">
       <div class="logo">
         <i class="fa-solid fa-pills"></i>
         <span>ALPHA PHARMACY</span>
-        <button class="sidebar-close-btn" onclick="document.getElementById('sidebar').classList.remove('mobile-open')">
-          <i class="fa-solid fa-times"></i>
-        </button>
       </div>
       
       <!-- Admin Navigation -->
@@ -105,47 +99,27 @@
       </div>
     </aside>
 
-    <!-- Mobile Menu Button -->
-    <button id="mobileMenuBtn" onclick="toggleMenu()" style="position:fixed;top:12px;left:12px;z-index:1002;background:#2563eb;color:#fff;border:none;padding:12px 14px;border-radius:8px;cursor:pointer;font-size:1.25rem;display:none;">
+    <!-- Mobile Toggle Button -->
+    <button id="menuToggle" onclick="toggleSidebar()" style="display:none;position:fixed;top:10px;left:10px;z-index:2000;background:#2563eb;color:#fff;border:none;padding:12px;border-radius:8px;cursor:pointer;font-size:18px;">
       <i class="fa-solid fa-bars"></i>
     </button>
-
+    
     <script>
-      function toggleMenu() {
+      function toggleSidebar() {
         var sidebar = document.getElementById('sidebar');
-        var overlay = document.getElementById('sidebarOverlay');
-        var isOpen = sidebar.classList.contains('mobile-open');
-        
-        if (isOpen) {
-          sidebar.classList.remove('mobile-open');
-          overlay.style.display = 'none';
-        } else {
-          sidebar.classList.add('mobile-open');
-          if (window.innerWidth <= 768) {
-            overlay.style.display = 'block';
-          }
-        }
+        sidebar.classList.toggle('show-sidebar');
       }
       
-      function checkScreen() {
-        var menuBtn = document.getElementById('mobileMenuBtn');
-        var sidebar = document.getElementById('sidebar');
-        var overlay = document.getElementById('sidebarOverlay');
-        
+      function checkMobile() {
+        var btn = document.getElementById('menuToggle');
         if (window.innerWidth <= 768) {
-          menuBtn.style.display = 'flex';
-          sidebar.style.display = 'none';
-          overlay.style.display = 'none';
+          btn.style.display = 'block';
         } else {
-          menuBtn.style.display = 'none';
-          sidebar.style.display = 'flex';
-          sidebar.classList.remove('mobile-open');
-          overlay.style.display = 'none';
+          btn.style.display = 'none';
         }
       }
-      
-      checkScreen();
-        window.addEventListener('resize', checkScreen);
+      checkMobile();
+      window.addEventListener('resize', checkMobile);
     </script>
 
     <!-- Main Content -->
@@ -576,4 +550,5 @@
 
   <script src="app.js"></script>
 </body>
+</html>
 </html>
